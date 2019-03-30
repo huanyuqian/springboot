@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body><center>
+<form  id="formid">
+    <input type="hidden" name="id" th:value="${shop.id}" /><br>
+    <table>
+    <tr>
+        <td>商品名:</td>
+        <td><input type="text" name="name" th:value="${shop.name}" /></td>
+    </tr>
+    <tr>
+        <td>商品价格:</td>
+        <td><input type="number" name="price" th:value="${shop.price}" /></td>
+    </tr>
+    <tr>
+        <td>上线时间:</td>
+        <td><input type="text" name="onlinedate" th:value="${#dates.format(shop.onlinedate, 'yyyy-MM-dd')}" /></td>
+    </tr>
+    <tr>
+        <td>商品照片:</td>
+        <td><input type="text" name="photo" th:value="${shop.photo}" /></td>
+    </tr>
+    <tr>
+        <td>关注人数:</td>
+        <td><input type="number" name="sumren" th:value="${shop.sumren}" /></td>
+    </tr>
+    <tr>
+        <td></td>
+        <td><input type="button" value="提交" onclick="querycost()" /></td>
+    </tr>
+    </table>
+</form>
+</center>
+<script th:inlin="javascript" src="/jquery.min.js"></script>
+    <script  th:inline="javascript">
+    function querycost(){
+    $.ajax({
+    type:"post",
+    url:"/shop/update",
+    data:$("#formid").serialize(),
+    success:function(){
+        location.href="/shop/queryShop"
+    }
+    })
+    }
+   </script>
+</body>
+</html>

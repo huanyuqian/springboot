@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<!--suppress ALL -->
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body >
+<center><br>
+    <form id="wherequery">
+        商品名称:<input type="text" name="name">
+        上架时间:<input type="text" name="enddate">~~<input type="text" name="onlinedate">
+    </form>
+    <input type="button" value="条件查询" onclick="whereQuery()">
+    <a href="updShop.html" th:href="@{/shop/addShop1}">添加</a>
+    <br>
+<table border="2px" cellspacing="0">
+    <tr>
+        <td>id</td>
+        <td>商品名称</td>
+        <td>商品价格</td>
+        <td>商品上架日期</td>
+        <td>商品照片</td>
+        <td>关注人数</td>
+        <td>操作</td>
+    </tr>
+    <tr  th:each="collect,iterStat : ${shop}">
+        <th scope="row" th:text="${collect.id}">1</th>
+        <th th:text="${collect.name}">Mark</th>
+        <th th:text="${collect.price}">Otto</th>
+        <th th:text="${#dates.format(collect.onlinedate, 'yyyy-MM-dd')}">@mdo</th>
+        <th><img th:src="${collect.photo}" /></th>
+        <th th:text="${collect.sumren}">000</th>
+        <th><a  th:href="@{/shop/updShop(id=${collect.id})}">修改</a>
+            <input type='button' value='删除' th:onclick="'deletegoods('+${collect.id}+')'">
+        </th>
+    </tr>
+</table>
+</center>
+<script th:inline="javascript" src="/jquery.min.js"></script>
+<script  th:inline="javascript">
+    function whereQuery(){
+        $.ajax({
+            type:"post",
+            url:"/shop/whereQuery",
+            data:$("#wherequery").serialize(),
+            success:function(){
+            }
+        })
+    }
+
+
+function deletegoods(id){
+    $.ajax({
+        type:"post",
+        url:"/shop/deletegoods",
+        data:{
+            id:id
+        },
+        success:function(){
+            location.href="/shop/queryShop"
+        }
+    })
+}
+
+
+ </script>
+</body>
+</html>

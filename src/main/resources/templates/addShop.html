@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body><center>
+    <form  id="addformid">
+        <table>
+            <tr>
+                <td>商品名:</td>
+                <td><input type="text" name="name"  /></td>
+            </tr>
+            <tr>
+                <td>商品价格:</td>
+                <td><input type="number" name="price"  /></td>
+            </tr>
+            <tr>
+                <td>上线时间:</td>
+                <td><input type="text" name="onlinedate" /></td>
+            </tr>
+            <tr>
+                <td>商品照片:</td>
+                <td><img id="showimg" height="100px"><input type="file" name="fileid" /><input type="hidden" name="photo">
+                    <input type="button" value="确认使用" onclick="savephoto()" /></td>
+            </tr>
+            <tr>
+                <td>关注人数:</td>
+                <td><input type="number" name="sumren"  /></td>
+            </tr>
+            <tr>
+                <td></td>
+                <td><input type="button" value="提交" th:onclick="'addshop()'" /></td>
+            </tr>
+        </table>
+    </form>
+</center>
+<script th:inlin="javascript" src="/jquery.min.js"></script>
+<script  th:inline="javascript">
+    function addshop(){
+        $.ajax({
+            type:"post",
+            url:"/shop/addShop",
+            data:$("#addformid").serialize(),
+            success:function(){
+                location.href="/shop/queryShop"
+            }
+        })
+    }
+    function savephoto(){
+            var formData = new FormData();
+              formData.append("artImg", document.getElementById("fileid").files[0])
+            $.ajax({
+                type: 'post',
+                url: "/shop/uploadPhotoFile",
+                data: formData,
+                cache: false,
+                processData: false,
+                contentType: false,
+            }).success(function (data) {
+                    $("#showimg").prop('src',data)
+                    $("[name='photo']").val(data);
+                }
+            );
+    }
+</script>
+</body>
+</html>
