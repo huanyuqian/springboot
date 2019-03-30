@@ -96,7 +96,7 @@ public class ShopController {
 
    @RequestMapping("testgit")
     public String testgit(){
-        return "testokkkk";
+        return "testqqq";
    }
 
 }
